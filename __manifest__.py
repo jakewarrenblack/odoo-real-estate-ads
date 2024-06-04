@@ -13,7 +13,9 @@
         'views/property_type_view.xml',
         'views/property_tag_view.xml'
     ],
-    "depends": [],
+    "depends": [
+        'base'
+    ],
     "application": True,
     "license": "LGPL-3"
 }

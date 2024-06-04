@@ -46,6 +46,14 @@
                                 <field name="best_offer"/>
                                 <field name="selling_price"/>
                             </group>
+                            <!-- a one to many field will always appear in the form of a tree -->
+                            <field name="offer_ids">
+                                <tree>
+                                    <field name="price"/>
+                                    <field name="partner_id"/>
+                                    <field name="status"/>
+                                </tree>
+                            </field>
                         </group>
                     </sheet>
                 </form>

@@ -30,6 +30,13 @@ class Property(models.Model):
         default='north'
     )
 
+    # Here we tie the offer to the property
+    # One2Many relationships are different from the others,
+    # in that they must have an inverse_name attribute provided, as well as the comodel name
+    # So this is the inverse of the link we made using Many2One in property_offer
+    offer_ids = fields.One2many('estate.property.offer', 'property_id', string="Offers")
+
+
 # We'll have a many-to-one relationship between a property and its type (e.g. apartment or house)
 # So again we just define a class for our model and its attributes
 # It will have its own view too
