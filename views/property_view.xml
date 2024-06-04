@@ -9,6 +9,7 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="name"/>
+                    <field name="type_id"/>
                     <field name="postcode"/>
                     <field name="date_availability"/>
                     <field name="expected_price"/>
@@ -34,6 +35,7 @@
                             <!-- with two sections -->
                             <group>
                                 <field name="postcode"/>
+                                <field name="type_id"/>
                                 <field name="date_availability"/>
                             </group>
                             <group>
