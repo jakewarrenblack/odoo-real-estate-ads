@@ -10,6 +10,9 @@ class Property(models.Model):
     # Here's how we make a relationship between the two models
     type_id = fields.Many2one("estate.property.type", string="Property Type")
 
+    # The convention of many to many is to pluralise the attribute name
+    tag_ids = fields.Many2many('estate.property.tag', string="Property Tag")
+
     description = fields.Text(string="Description")  # multiline values
     postcode = fields.Char(string="Postcode")
     date_availability = fields.Date(string="Date")
@@ -32,5 +35,13 @@ class Property(models.Model):
 # It will have its own view too
 class PropertyType(models.Model):
     _name = "estate.property.type"
+
+    name = fields.Char(string="Name", required=True)
+
+
+# There will be a many-to-many relationship between a property and its descriptive tags
+class PropertyTag(models.Model):
+    _name = "estate.property.tag"
+    _description = "Property Tag"
 
     name = fields.Char(string="Name", required=True)

@@ -32,6 +32,9 @@
                             <!-- this is the title -->
                             <field name="name"/>
 
+                            <!-- the relationship between the tag and the property is bound by the tag_ids -->
+                            <field name="tag_ids" widget="many2many_tags"/>
+
                             <!-- with two sections -->
                             <group>
                                 <field name="postcode"/>
