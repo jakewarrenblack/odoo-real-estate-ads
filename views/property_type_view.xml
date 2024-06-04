@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <!-- define a basic tree view -->
+        <record id="estate_property_type_tree_view" model="ir.ui.view">
+            <field name="name">estate.property.type.tree</field>
+            <field name="model">estate.property.type</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <!-- define a basic form view -->
+        <record id="estate_property_type_form_view" model="ir.ui.view">
+            <field name="name">estate.property.type.form</field>
+            <field name="model">estate.property.type</field>
+            <field name="arch" type="xml">
+                <!-- just like a container -->
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+
+        <!-- we create a record on the act_window model -->
+        <!-- ir.actions.act_window is a model too, just like the one we made -->
+        <record id="action_property_type" model="ir.actions.act_window">
+            <!-- and 'name' is a field on the act_window -->
+            <field name="name">Property Type</field>
+            <!-- res_model refers to the model we've defined here, so estate.property.type -->
+            <field name="res_model">estate.property.type</field>
+            <field name="view_mode">tree,form</field>
+            <!-- point it towards our custom tree view -->
+            <field name="view_id" ref="estate_property_type_tree_view"/>
+        </record>
+    </data>
+</odoo>

@@ -22,3 +22,11 @@ class Property(models.Model):
         string="Garden Orientation",
         default='north'
     )
+
+# We'll have a one-to-one relationship between a property and its type (e.g. apartment or house)
+# So again we just define a class for our model and its attributes
+# It will have its own view too
+class PropertyType(models.Model):
+    _name = "estate.property.type"
+
+    name = fields.Char(string="Name", required=True)
