@@ -14,3 +14,7 @@ class PropertyOffer(models.Model):
 
     # estate.property must be linked to this offer model via the property ID
     property_id = fields.Many2one('estate.property', string='Property')
+
+    validity = fields.Integer(string="Validity")
+
+    deadline = fields.Date(string="Deadline")

@@ -22,6 +22,7 @@ class Property(models.Model):
     bedrooms = fields.Integer(string="Bedrooms")
     living_area = fields.Integer(string="Living Area (sqm)")
     facades = fields.Integer(string="Facades")
+    garden = fields.Boolean(string="Garden", default=False)
     garage = fields.Boolean(string="Garage", default=False)
     garden_area = fields.Integer(string="Garden Area")
     garden_orientation = fields.Selection(
@@ -35,6 +36,12 @@ class Property(models.Model):
     # in that they must have an inverse_name attribute provided, as well as the comodel name
     # So this is the inverse of the link we made using Many2One in property_offer
     offer_ids = fields.One2many('estate.property.offer', 'property_id', string="Offers")
+
+    # A salesperson. res.users is another model available to use once we have the base
+    sales_id = fields.Many2one('res.users', string='Salesman')
+    # https://stackoverflow.com/questions/22927605/what-is-res-partner
+    # Again, the partner represents people and organisations
+    buyer_id = fields.Many2one('res.partner', string='Buyer')
 
 
 # We'll have a many-to-one relationship between a property and its type (e.g. apartment or house)
