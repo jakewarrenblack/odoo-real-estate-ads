@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import fields, models, api
 
 
 # Import model from the models class
@@ -42,6 +42,17 @@ class Property(models.Model):
     # https://stackoverflow.com/questions/22927605/what-is-res-partner
     # Again, the partner represents people and organisations
     buyer_id = fields.Many2one('res.partner', string='Buyer')
+
+    @api.depends('living_area', 'garden_area')
+    def _compute_total_area(self):
+        # Iterate through the class's attributes to get the relevant ones
+        for rec in self:
+            rec.total_area = rec.living_area + rec.garden_area
+
+    # We make sure to define the method before calling it
+    total_area = fields.Integer(string="Total Area", compute=_compute_total_area)
+
+
 
 
 # We'll have a many-to-one relationship between a property and its type (e.g. apartment or house)
