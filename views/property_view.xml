@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!-- we create a record on the act_window model -->
+        <!-- ir.actions.act_window is a model too, just like the one we made -->
+        <record id="action_property" model="ir.actions.act_window">
+            <!-- and 'name' is a field on the act_window -->
+            <field name="name">Property</field>
+            <!-- res_model refers to the model we've defined here, so estate.property -->
+            <field name="res_model">estate.property</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a Property to Advertise
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

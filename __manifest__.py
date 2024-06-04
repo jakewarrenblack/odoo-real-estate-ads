@@ -8,6 +8,8 @@
     "category": "Sales",
     "data": [
         'security/ir.model.access.csv',
+        'views/property_view.xml', # we load this one first, because it contains an import for the menu_items action
+        'views/menu_items.xml'
     ],
     "depends": [],
     "application": True,
