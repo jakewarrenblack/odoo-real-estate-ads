@@ -48,6 +48,8 @@ class Property(models.Model):
         # Domain filtering:
         # For the sake of an example, we can filter out specific types of partners.
         # Since they could be companies or individuals, we can filter for one or the other
+        # So 'is_company' is just one of the attributes available on res.partner
+        # For other types like integers, we could check less than, greater than, etc.
         domain=[('is_company', '=', True)]
     )
 
