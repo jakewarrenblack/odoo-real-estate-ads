@@ -1,4 +1,5 @@
-from odoo import models, fields
+from odoo import models, fields, api
+from datetime import timedelta
 
 
 class PropertyOffer(models.Model):
@@ -15,6 +16,21 @@ class PropertyOffer(models.Model):
     # estate.property must be linked to this offer model via the property ID
     property_id = fields.Many2one('estate.property', string='Property')
 
-    validity = fields.Integer(string="Validity")
+    # We can compute the deadline of an offer based on when it was made x the validity duration
+    validity = fields.Integer(string="Validity") # E.g., '5' as in 'valid for 5 days'
+    deadline = fields.Date(string="Deadline", compute='_compute_deadline', inverse='_inverse_deadline')
+    creation_date = fields.Date(string="Creation Date")
 
-    deadline = fields.Date(string="Deadline")
+    @api.depends('validity', 'creation_date')
+    def _compute_deadline(self):
+        for rec in self:
+            if rec.creation_date and rec.validity:
+                # Pass in the validity duration to calculate delta of 5 days
+                rec.deadline = rec.creation_date + timedelta(days=rec.validity)
+            else:
+                rec.deadline = False
+
+    def _inverse_deadline(self):
+        for rec in self:
+            rec.validity = (rec.deadline - rec.creation_date).days # They're date objects, so have access to 'days' attribute
+

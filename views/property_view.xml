@@ -67,9 +67,10 @@
                                         <tree editable="bottom">
                                             <field name="price"/>
                                             <field name="partner_id"/>
+                                            <field name="creation_date"/>
                                             <field name="status"/>
                                             <field name="validity"/>
-                                            <field name="deadline" nolabel="1"/>
+                                            <field name="deadline"/>
                                         </tree>
                                     </field>
                                 </page>
