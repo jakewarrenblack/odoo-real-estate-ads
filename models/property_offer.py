@@ -8,7 +8,7 @@ class PropertyOffer(models.Model):
     _description = 'Estate Property Offers'
 
     price = fields.Float(string="Price")
-    status = fields.Selection([('accepted', 'Accepted'), ('refused', 'Refused')],string='Status')
+    status = fields.Selection([('accepted', 'Accepted'), ('refused', 'Refused')], string='Status')
     # The entity placing the bid/offer will be a customer, but there's an entity in Odoo called res.partner
     # Partners represent people or organisations,
     # so we can use res.partner as our 'customer' instead of making a model for that
@@ -18,7 +18,7 @@ class PropertyOffer(models.Model):
     property_id = fields.Many2one('estate.property', string='Property')
 
     # We can compute the deadline of an offer based on when it was made x the validity duration
-    validity = fields.Integer(string="Validity") # E.g., '5' as in 'valid for 5 days'
+    validity = fields.Integer(string="Validity")  # E.g., '5' as in 'valid for 5 days'
     deadline = fields.Date(string="Deadline", compute='_compute_deadline', inverse='_inverse_deadline')
     creation_date = fields.Date(string="Creation Date")
 
@@ -112,3 +112,79 @@ class PropertyOffer(models.Model):
             if rec.deadline and rec.creation_date:
                 if rec.deadline <= rec.creation_date:
                     raise ValidationError("Deadline cannot be before creation date")
+
+    #########################################################################################
+    # ORM methods: Odoo provides CRUD functionality we can override
+    #########################################################################################
+
+    # Create
+    @api.model_create_multi
+    def create(self, vals):
+        # Example here is overriding the default create method, so we can modify the creation_date attribute as needed
+        for rec in vals:
+            if not rec.get('creation_date'):
+                rec['creation_date'] = fields.Date.today()
+
+        # Always remember to return the super method of the ORM method you are overriding at the end
+        return super(PropertyOffer, self).create(vals)
+
+    # Write: Update all records in self with the provided value.
+    # It's triggered when there's any change in the record.
+    def write(self, vals):
+        # So, when some change is made to a property offer (and the offer is saved), we'd see the value printed out
+        print(vals)
+
+        # Updated values are returned into the super() call to update the record
+        return super(PropertyOffer, self).write(vals)
+
+    # Miracle talks about search and browse. I was confused as to the difference between these.
+    # https://stackoverflow.com/questions/29279442/need-explanation-of-syntax-and-use-of-search-browse-return-variables
+    # Search accepts some filter (domain)  as an argument and returns a list of IDs.
+    # Browse seems to accept an ID as an argument and returns browsable records.
+    # In his example, within the write method above, we could find something like:
+
+    '''
+    print(vals) # Just to see what the values are
+    
+    res_partner_ids = self.env['res.partner'].search([
+        ('is_company', '=', True)
+    ])
+    
+    print(res_partner_ids.name) 
+    '''
+
+    # Which would return:
+    # 1. The values provided when the write operation occurs
+    # 2. The record where that search filter is true
+    '''
+        => {'price': 40}
+        => 'Joe Bloggs'
+    '''
+
+    # Search also accepts a 'limit' parameter
+    # As well as an order parameter. Such as order='name asc'
+
+    '''
+    Another one to keep in mind is search_count() -> Rather than returning the actual record, it tells the number of records which match your given condition.
+    '''
+
+    '''
+    Also keep in mind that you can run the .unlink() method on any of these queries, to delete the records which are found.
+    '''
+
+    '''
+    You can also override the unlink method.
+    
+    An obvious use case be implementing some cascading delete, whereby you delete some partner who has associated records of some kind.
+    '''
+
+    '''
+    
+    More methods you can chain onto your domain search:
+    .mapped() -> Return some specific attribute
+    
+    .filtered() -> Filter out records on the fly without needing to append to some list and filter manually:
+        e.g., .filtered(lambda x: x.phone == '085 111 1111')
+        
+    '''
+
