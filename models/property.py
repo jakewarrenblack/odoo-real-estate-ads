@@ -43,6 +43,12 @@ class Property(models.Model):
     # Again, the partner represents people and organisations
     buyer_id = fields.Many2one('res.partner', string='Buyer')
 
+    # We said that we have a many2one relationship between property and partner in the form of buyer_id
+    # Partners have phone numbers,
+    # so we can access that by saying that 'phone' is equal to a
+    # 'related' value of buyer_id (which is on this model) .phone, taken from the partner
+    phone = fields.Char(string="Phone", related='buyer_id.phone')
+
     @api.depends('living_area', 'garden_area')
     def _compute_total_area(self):
         # Iterate through the class's attributes to get the relevant ones
@@ -51,8 +57,6 @@ class Property(models.Model):
 
     # We make sure to define the method before calling it
     total_area = fields.Integer(string="Total Area", compute=_compute_total_area)
-
-
 
 
 # We'll have a many-to-one relationship between a property and its type (e.g. apartment or house)
