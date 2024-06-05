@@ -30,6 +30,7 @@ class PropertyOffer(models.Model):
             else:
                 rec.deadline = False
 
+    # Keep in mind that inverse does its work when the record is saved, while compute does it on the fly
     def _inverse_deadline(self):
         for rec in self:
             rec.validity = (rec.deadline - rec.creation_date).days # They're date objects, so have access to 'days' attribute

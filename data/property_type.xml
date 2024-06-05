@@ -1,0 +1,27 @@
+<!-- we can provide starting data for our module, which will be loaded when the module is installed -->
+<!-- You can do this same thing using a csv file, which seems less verbose -->
+<!-- It works the same way for creating demo data, but the difference is that demo data is only loaded at the point of installation and when the db has been told to load demo data -->
+<odoo>
+    <!-- By saying noupdate="1", we specify to only create the data once, so when the module is updated, this data is not loaded again -->
+    <data noupdate="1">
+        <!-- same as when tying our view to a model, we specify the model attribute. In the view, we used model's built into odoo (ir.ui.view), but here, we tie back to our custom model -->
+        <record id="property_type_house" model="estate.property.type">
+            <!-- remember that in the estate.property.type module, we have a field called 'name' -->
+            <!-- we can access that here and provide a value for it. that's how we provide a record for a module using a data file. -->
+            <field name="name">House</field>
+        </record>
+
+        <!-- Remember the ID must be unique -->
+        <record id="property_type_apartment" model="estate.property.type">
+            <field name="name">Apartment</field>
+        </record>
+
+        <record id="property_type_penthouse" model="estate.property.type">
+            <field name="name">Penthouse</field>
+        </record>
+
+        <record id="property_type_castle" model="estate.property.type">
+            <field name="name">Castle</field>
+        </record>
+    </data>
+</odoo>
