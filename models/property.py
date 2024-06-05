@@ -39,9 +39,17 @@ class Property(models.Model):
 
     # A salesperson. res.users is another model available to use once we have the base
     sales_id = fields.Many2one('res.users', string='Salesman')
-    # https://stackoverflow.com/questions/22927605/what-is-res-partner
-    # Again, the partner represents people and organisations
-    buyer_id = fields.Many2one('res.partner', string='Buyer')
+
+    buyer_id = fields.Many2one(
+        # https://stackoverflow.com/questions/22927605/what-is-res-partner
+        # Again, the partner represents people and organisations
+        'res.partner',
+        string='Buyer',
+        # Domain filtering:
+        # For the sake of an example, we can filter out specific types of partners.
+        # Since they could be companies or individuals, we can filter for one or the other
+        domain=[('is_company', '=', True)]
+    )
 
     # We said that we have a many2one relationship between property and partner in the form of buyer_id
     # Partners have phone numbers,
