@@ -13,6 +13,7 @@
         'views/menu_items.xml',
         'views/property_type_view.xml',
         'views/property_tag_view.xml',
+        'views/property_offer_view.xml',
         'data/property_type.xml',
         'data/estate.property.tag.csv'
     ],
