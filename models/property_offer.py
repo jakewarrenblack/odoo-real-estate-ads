@@ -7,6 +7,17 @@ class PropertyOffer(models.Model):
     _name = 'estate.property.offer'
     _description = 'Estate Property Offers'
 
+    # Give offers semi-unique names
+    @api.depends('property_id', 'partner_id')
+    def _compute_name(self):
+        for rec in self:
+            if rec.property_id and rec.partner_id:
+                rec.name = f'{rec.partner_id.name} - {rec.property_id.name}'
+            else:
+                rec.name = False
+
+    name = fields.Char(string='Description', compute='_compute_name')
+
     price = fields.Float(string="Price")
     status = fields.Selection([('accepted', 'Accepted'), ('refused', 'Refused')], string='Status')
     # The entity placing the bid/offer will be a customer, but there's an entity in Odoo called res.partner
