@@ -11,8 +11,10 @@ class Property(models.Model):
 
     state = fields.Selection([
         ('new', 'New'),
-        ('accepted', 'Accepted'),
-        ('refused', 'Refused'),
+        ('received', 'Offer Received'),
+        ('refused', 'Offer Refused'),
+        ('accepted', 'Offer Accepted'),
+        ('sold', 'Sold'),
         ('cancelled', 'Cancelled'),
     ], default='new', string="Status")
 
@@ -78,11 +80,11 @@ class Property(models.Model):
     total_area = fields.Integer(string="Total Area", compute=_compute_total_area)
 
     # -- Buttons / actions --
-    def action_accept(self):
-        self.state = 'accepted'
+    def action_sold(self):
+        self.state = 'sold'
 
-    def action_refuse(self):
-        self.state = 'refused'
+    def action_cancel(self):
+        self.state = 'cancelled'
 
 
 # We'll have a many-to-one relationship between a property and its type (e.g. apartment or house)

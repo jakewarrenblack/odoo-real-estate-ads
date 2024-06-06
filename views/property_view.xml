@@ -31,8 +31,9 @@
                     <header>
                         <!-- The name must correspond with a method in your model -->
                         <!-- Type can be object or action -->
-                        <button name="action_accept" type="object" string="Accept"/>
-                        <button name="action_refuse" type="object" string="Decline"/>
+                        <button name="action_sold" type="object" string="Sold" class="btn btn-primary"/>
+                        <button name="action_cancel" type="object" string="Cancel" class="btn btn-danger"/>
+                        <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
                         <group>
