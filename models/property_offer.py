@@ -118,24 +118,24 @@ class PropertyOffer(models.Model):
     #########################################################################################
 
     # Create
-    @api.model_create_multi
-    def create(self, vals):
-        # Example here is overriding the default create method, so we can modify the creation_date attribute as needed
-        for rec in vals:
-            if not rec.get('creation_date'):
-                rec['creation_date'] = fields.Date.today()
-
-        # Always remember to return the super method of the ORM method you are overriding at the end
-        return super(PropertyOffer, self).create(vals)
+    # @api.model_create_multi
+    # def create(self, vals):
+    #     # Example here is overriding the default create method, so we can modify the creation_date attribute as needed
+    #     for rec in vals:
+    #         if not rec.get('creation_date'):
+    #             rec['creation_date'] = fields.Date.today()
+    #
+    #     # Always remember to return the super method of the ORM method you are overriding at the end
+    #     return super(PropertyOffer, self).create(vals)
 
     # Write: Update all records in self with the provided value.
     # It's triggered when there's any change in the record.
-    def write(self, vals):
-        # So, when some change is made to a property offer (and the offer is saved), we'd see the value printed out
-        print(vals)
-
-        # Updated values are returned into the super() call to update the record
-        return super(PropertyOffer, self).write(vals)
+    # def write(self, vals):
+    #     # So, when some change is made to a property offer (and the offer is saved), we'd see the value printed out
+    #     print(vals)
+    #
+    #     # Updated values are returned into the super() call to update the record
+    #     return super(PropertyOffer, self).write(vals)
 
     # Miracle talks about search and browse. I was confused as to the difference between these.
     # https://stackoverflow.com/questions/29279442/need-explanation-of-syntax-and-use-of-search-browse-return-variables

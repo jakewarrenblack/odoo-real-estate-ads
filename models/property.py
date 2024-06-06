@@ -5,7 +5,16 @@ from odoo import fields, models, api
 class Property(models.Model):
     _name = "estate.property"  # this is a table in the database, and the attributes below are its columns/attributes
 
+    _description = "Property"
+
     name = fields.Char(string="Name")
+
+    state = fields.Selection([
+        ('new', 'New'),
+        ('accepted', 'Accepted'),
+        ('refused', 'Refused'),
+        ('cancelled', 'Cancelled'),
+    ], default='new', string="Status")
 
     # Here's how we make a relationship between the two models
     type_id = fields.Many2one("estate.property.type", string="Property Type")
@@ -68,12 +77,20 @@ class Property(models.Model):
     # We make sure to define the method before calling it
     total_area = fields.Integer(string="Total Area", compute=_compute_total_area)
 
+    # -- Buttons / actions --
+    def action_accept(self):
+        self.state = 'accepted'
+
+    def action_refuse(self):
+        self.state = 'refused'
+
 
 # We'll have a many-to-one relationship between a property and its type (e.g. apartment or house)
 # So again we just define a class for our model and its attributes
 # It will have its own view too
 class PropertyType(models.Model):
     _name = "estate.property.type"
+    _description = "Property Type"
 
     name = fields.Char(string="Name", required=True)
 

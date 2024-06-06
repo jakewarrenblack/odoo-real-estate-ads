@@ -27,6 +27,13 @@
             <field name="arch" type="xml">
                 <!-- just like a container -->
                 <form>
+                    <!-- Appears at the top of the page, below the model title -->
+                    <header>
+                        <!-- The name must correspond with a method in your model -->
+                        <!-- Type can be object or action -->
+                        <button name="action_accept" type="object" string="Accept"/>
+                        <button name="action_refuse" type="object" string="Decline"/>
+                    </header>
                     <sheet>
                         <group>
                             <!-- this is the title -->
@@ -37,6 +44,7 @@
 
                             <!-- with two sections -->
                             <group>
+                                <field name="state"/>
                                 <field name="postcode"/>
                                 <field name="type_id"/>
                                 <field name="date_availability"/>
