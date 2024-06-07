@@ -31,7 +31,12 @@ class PropertyOffer(models.Model):
     # We can compute the deadline of an offer based on when it was made x the validity duration
     validity = fields.Integer(string="Validity")  # E.g., '5' as in 'valid for 5 days'
     deadline = fields.Date(string="Deadline", compute='_compute_deadline', inverse='_inverse_deadline')
-    creation_date = fields.Date(string="Creation Date")
+
+    @api.model
+    def _set_creation_date(self):
+        return fields.Date.today()
+
+    creation_date = fields.Date(string="Creation Date", default=_set_creation_date)
 
     @api.depends('validity', 'creation_date')
     def _compute_deadline(self):
@@ -198,4 +203,43 @@ class PropertyOffer(models.Model):
         e.g., .filtered(lambda x: x.phone == '085 111 1111')
         
     '''
+
+    def action_accept_offer(self):
+        if self.property_id:
+            # You can do it this way
+            # self.property_id.selling_price = self.price
+
+            self._validate_accepted_offer()
+
+            # Or use the ORM method
+            self.property_id.write({
+                'selling_price': self.price,
+                'state': 'accepted'
+            })
+
+            self.status = 'accepted'
+
+    # Ensure only one offer can be accepted
+    def _validate_accepted_offer(self):
+        # Find the property related to this offer by ID
+        # Then search for any *other* offers related to that property which have been accepted
+        offer_ids = self.env['estate.property.offer'].search([
+            ('property_id', '=', self.property_id.id),
+            ('status', '=', 'accepted')
+        ])
+
+        if offer_ids:
+            raise ValidationError("Another offer has already been accepted for this property")
+
+    def action_decline_offer(self):
+        self.status = 'refused'
+
+        # If all offers have been refused, set the property state to 'received'
+        # Just means an offer has been made, but none have been accepted
+        # And the selling price is set to 0 because no offers have been accepted
+        if all(self.property_id.offer_ids.mapped('status')):
+            self.property_id.write({
+                'selling_price': 0,
+                'state': 'received'
+            })
 
