@@ -1,22 +1,18 @@
 from odoo import fields, models, api
 
 
-# Import model from the models class
 class Property(models.Model):
-    _name = "estate.property"  # this is a table in the database, and the attributes below are its columns/attributes
+    _name = 'estate.property'
+    _description = 'Estate Properties'
 
-    _description = "Property"
-
-    name = fields.Char(string="Name")
-
+    name = fields.Char(string="Name", required=True)
     state = fields.Selection([
         ('new', 'New'),
         ('received', 'Offer Received'),
-        ('refused', 'Offer Refused'),
         ('accepted', 'Offer Accepted'),
         ('sold', 'Sold'),
-        ('cancelled', 'Cancelled'),
-    ], default='new', string="Status")
+        ('cancel', 'Cancelled')
+    ], default='new', string="Status", group_expand='_expand_state')
 
     # Here's how we make a relationship between the two models
     type_id = fields.Many2one("estate.property.type", string="Property Type")
@@ -70,36 +66,46 @@ class Property(models.Model):
     # 'related' value of buyer_id (which is on this model) .phone, taken from the partner
     phone = fields.Char(string="Phone", related='buyer_id.phone')
 
-    @api.depends('living_area', 'garden_area')
-    def _compute_total_area(self):
-        # Iterate through the class's attributes to get the relevant ones
-        for rec in self:
-            rec.total_area = rec.living_area + rec.garden_area
+    @api.onchange('living_area', 'garden_area')
+    def _onchange_total_area(self):
+        self.total_area = self.living_area + self.garden_area
 
-    # We make sure to define the method before calling it
-    total_area = fields.Integer(string="Total Area", compute=_compute_total_area)
+    total_area = fields.Integer(string="Total Area")
 
-    # -- Buttons / actions --
     def action_sold(self):
         self.state = 'sold'
 
     def action_cancel(self):
-        self.state = 'cancelled'
+        self.state = 'cancel'
+
+    @api.depends('offer_ids')
+    def _compute_offer_count(self):
+        for rec in self:
+            rec.offer_count = len(rec.offer_ids)
+
+    offer_count = fields.Integer(string="Offer Count", compute=_compute_offer_count)
+
+    def action_property_view_offers(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': f"{self.name} - Offers",
+            'domain': [('property_id', '=', self.id)],
+            'view_mode': 'tree',
+            'res_model': 'estate.property.offer',
+
+        }
 
 
-# We'll have a many-to-one relationship between a property and its type (e.g. apartment or house)
-# So again we just define a class for our model and its attributes
-# It will have its own view too
 class PropertyType(models.Model):
-    _name = "estate.property.type"
-    _description = "Property Type"
+    _name = 'estate.property.type'
+    _description = 'Property Type'
 
     name = fields.Char(string="Name", required=True)
 
 
-# There will be a many-to-many relationship between a property and its descriptive tags
 class PropertyTag(models.Model):
-    _name = "estate.property.tag"
-    _description = "Property Tag"
+    _name = 'estate.property.tag'
+    _description = 'Property Tag'
 
     name = fields.Char(string="Name", required=True)
+    color = fields.Integer(string="Color")

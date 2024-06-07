@@ -2,7 +2,13 @@
 <odoo>
     <data>
 
-        <!-- define a basic tree view -->
+        <record id="action_property_view_offers" model="ir.actions.act_window">
+            <field name="name">Property</field>
+            <field name="res_model">estate.property.offer</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('property_id', '=', active_id)]</field>
+        </record>
+
         <record id="estate_property_tree_view" model="ir.ui.view">
             <field name="name">estate.property.tree</field>
             <field name="model">estate.property</field>
@@ -19,70 +25,64 @@
             </field>
         </record>
 
-
-        <!-- define a basic form view -->
         <record id="estate_property_form_view" model="ir.ui.view">
             <field name="name">estate.property.form</field>
             <field name="model">estate.property</field>
             <field name="arch" type="xml">
-                <!-- just like a container -->
                 <form>
-                    <!-- Appears at the top of the page, below the model title -->
                     <header>
-                        <!-- The name must correspond with a method in your model -->
-                        <!-- Type can be object or action -->
                         <button name="action_sold" type="object" string="Sold" class="btn btn-primary"/>
                         <button name="action_cancel" type="object" string="Cancel" class="btn btn-danger"/>
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" name="action_property_view_offers" type="object" icon="fa-handshake-o">
+                                <field name="offer_count" string="Offers" widget="statinfo"/>
+                            </button>
+                        </div>
                         <group>
-                            <!-- this is the title -->
                             <field name="name"/>
-
-                            <!-- the relationship between the tag and the property is bound by the tag_ids -->
                             <field name="tag_ids" widget="many2many_tags"/>
-
-                            <!-- with two sections -->
                             <group>
-                                <field name="state"/>
-                                <field name="postcode"/>
                                 <field name="type_id"/>
+                                <field name="postcode"/>
                                 <field name="date_availability"/>
                             </group>
                             <group>
-                                <field name="expected_price"/>
-                                <field name="best_offer"/>
-                                <field name="selling_price"/>
+                                <field name="expected_price" groups="real_estate_ads.group_property_manager" widget="monetary"/>
+                                <field name="best_offer" widget="monetary"/>
+                                <field name="selling_price" widget="monetary"/>
                             </group>
                         </group>
                         <notebook>
-                                <page string="Description">
-                                    <group>
-                                        <field name="description"/>
-                                        <field name="bedrooms"/>
-                                        <field name="living_area"/>
-                                        <field name="facades"/>
-                                        <field name="garage"/>
-                                        <field name="garden"/>
-                                        <field name="garden_area"/>
-                                        <field name="garden_orientation"/>
-                                        <field name="total_area"/>
-                                    </group>
-                                </page>
-                                <page string="Offers">
-                                    <!-- a one to many field will always appear in the form of a tree -->
-                                    <field name="offer_ids">
-                                        <tree editable="bottom">
-                                            <field name="price"/>
-                                            <field name="partner_id"/>
-                                            <field name="creation_date"/>
-                                            <field name="status"/>
-                                            <field name="validity"/>
-                                            <field name="deadline"/>
-                                        </tree>
-                                    </field>
-                                </page>
+                            <page string="Description">
+                                <group>
+                                    <field name="description"/>
+                                    <field name="bedrooms"/>
+                                    <field name="living_area"/>
+                                    <field name="facades"/>
+                                    <field name="garage"/>
+                                    <field name="garden"/>
+                                    <field name="garden_area" attrs="{'invisible': [('garden', '=', False)]}"/>
+                                    <field name="garden_orientation" attrs="{'invisible': [('garden', '=', False)]}"/>
+                                    <field name="total_area"/>
+
+                                </group>
+
+                            </page>
+                            <page string="Offers">
+                                <field name="offer_ids">
+                                    <tree editable="bottom">
+                                        <field name="price"/>
+                                        <field name="partner_id"/>
+                                        <field name="creation_date"/>
+                                        <field name="validity"/>
+                                        <field name="deadline"/>
+                                        <field name="status"/>
+                                    </tree>
+                                </field>
+                            </page>
                             <page string="Other Info">
                                 <group>
                                     <field name="sales_id"/>
@@ -90,36 +90,24 @@
                                     <field name="phone"/>
                                 </group>
                             </page>
-                            </notebook>
+                        </notebook>
                     </sheet>
                 </form>
             </field>
         </record>
 
-        <record id="action_property_view_offers" model="ir.actions.act_window">
-            <field name="name">Property</field>
-            <field name="res_model">estate.property.offer</field>
-            <field name="view_mode">tree,form</field>
-            <field name="domain">[('property_id', '=', active_id)]</field>
-        </record>
 
-
-
-        <!-- we create a record on the act_window model -->
-        <!-- ir.actions.act_window is a model too, just like the one we made -->
         <record id="action_property" model="ir.actions.act_window">
-            <!-- and 'name' is a field on the act_window -->
             <field name="name">Property</field>
-            <!-- res_model refers to the model we've defined here, so estate.property -->
             <field name="res_model">estate.property</field>
             <field name="view_mode">tree,form</field>
-            <!-- point it towards our custom tree view -->
-            <field name="view_id" ref="estate_property_tree_view"/>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Create a Property to Advertise
                 </p>
             </field>
         </record>
+
+
     </data>
 </odoo>
