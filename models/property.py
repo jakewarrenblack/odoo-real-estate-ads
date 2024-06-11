@@ -22,7 +22,7 @@ class Property(models.Model):
 
     description = fields.Text(string="Description")  # multiline values
     postcode = fields.Char(string="Postcode")
-    date_availability = fields.Date(string="Date")
+    date_availability = fields.Date(string="Available From")
     expected_price = fields.Float(string="Expected Price")
     selling_price = fields.Float(string="Selling Price", readonly=True)
     best_offer = fields.Float(string="Best Offer", compute='compute_best_price')

@@ -143,6 +143,20 @@
         </record>
 
 
+        <record id="estate_property_calendar_view" model="ir.ui.view">
+            <field name="name">estate.property.calendar</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <!-- This will inherit from the 'event' model by default, so we disable the quick popup form, as it will have stuff about events -->
+                <calendar date_start="date_availability" string="Properties" mode="month" event_open_popup="true" quick_add="false">
+                    <field name="name"/>
+                    <field name="date_availability"/>
+                    <field name="postcode"/>
+                </calendar>
+            </field>
+        </record>
+
+
         <record id="estate_property_form_view" model="ir.ui.view">
             <field name="name">estate.property.form</field>
             <field name="model">estate.property</field>
@@ -221,7 +235,7 @@
             <field name="name">Property</field>
             <field name="res_model">estate.property</field>
             <!-- view_mode is a comma-separated list of the view types to make available. The first in the list is the one to open by default. -->
-            <field name="view_mode">kanban,pivot,graph,tree,form</field>
+            <field name="view_mode">kanban,pivot,graph,calendar,tree,form</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Create a Property to Advertise
