@@ -113,6 +113,23 @@
             </field>
         </record>
 
+        <!-- The pivot view is described as being more like a report, to give you an idea of what's going on in the database -->
+        <record id="estate_property_pivot_view" model="ir.ui.view">
+            <field name="name">estate.property.pivot</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <pivot>
+                    <!-- In a pivot table, fields fall into three categories; row, measure, column -->
+                    <!-- Useful if you need to create a quick report/overview of your model, as you can export it to Excel -->
+                    <field name="name" type="row"/>
+                    <field name="selling_price" type="measure"/>
+                    <field name="expected_price" type="measure"/>
+                    <field name="facades" type="measure"/>
+                    <field name="bedrooms" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
 
         <record id="estate_property_form_view" model="ir.ui.view">
             <field name="name">estate.property.form</field>
@@ -192,7 +209,7 @@
             <field name="name">Property</field>
             <field name="res_model">estate.property</field>
             <!-- view_mode is a comma-separated list of the view types to make available. The first in the list is the one to open by default. -->
-            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_mode">kanban,pivot,tree,form</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Create a Property to Advertise
