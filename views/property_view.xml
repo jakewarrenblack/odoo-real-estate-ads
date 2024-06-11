@@ -64,6 +64,56 @@
             </field>
         </record>
 
+        <!-- The kanban view shows records as cards -->
+        <record id="estate_property_kanban_view" model="ir.ui.view">
+            <field name="name">estate.property.kanban</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+
+
+                    <!-- I find it confusing, but I need to specify the name of the module when linking the form view -->
+                    <!-- It won't work otherwise, and will use a default quick form instead of the custom one -->
+                    <kanban
+                    on_create="quick_create"
+                    quick_create_view="real_estate_ads.quick_create_estate_property_form_view"
+                    default_group_by="state"> <!-- You can change the state then by dragging cards in the kanban -->
+                    <field name="name"/>
+                    <field name="state"/>
+                    <field name="postcode"/>
+                    <field name="buyer_id"/>
+                    <!-- QWeb tags will be looked at in more depth later in the course, but we'll see a simple use case here -->
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title">
+                                    <field name="name"/>
+                                </strong>
+                                <div class="o_kanban_tags_section">
+                                    <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <field name="offer_count"/> Offer(s)
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="quick_create_estate_property_form_view" model="ir.ui.view">
+            <field name="name">estate.property.form</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="name"/>
+                </form>
+            </field>
+        </record>
+
+
         <record id="estate_property_form_view" model="ir.ui.view">
             <field name="name">estate.property.form</field>
             <field name="model">estate.property</field>
@@ -141,7 +191,8 @@
         <record id="action_property" model="ir.actions.act_window">
             <field name="name">Property</field>
             <field name="res_model">estate.property</field>
-            <field name="view_mode">tree,form</field>
+            <!-- view_mode is a comma-separated list of the view types to make available. The first in the list is the one to open by default. -->
+            <field name="view_mode">kanban,tree,form</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Create a Property to Advertise
