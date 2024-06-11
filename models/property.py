@@ -103,6 +103,17 @@ class Property(models.Model):
             else:
                 rec.best_offer = 0
 
+    '''
+    When you use the context="{'group_by': 'field_name'}" attribute in a filter within a search view, 
+    Odoo will look for a method named _expand_field_name in the corresponding model. 
+    This method should return a list of tuples, 
+    where each tuple represents a possible state and contains two elements: 
+    the internal value of the state and the display name of the state
+    '''
+
+    @api.model
+    def _expand_state(self, states, domain, order):
+        return [key for key, val in type(self).state.selection]
 
 
 class PropertyType(models.Model):

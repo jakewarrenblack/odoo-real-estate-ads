@@ -25,6 +25,45 @@
             </field>
         </record>
 
+        <!-- Search view allows searching a record by specific attributes -->
+        <!-- Also allows for filtering and grouping -->
+        <!-- There will be a default search for 'name' in any case, without adding it -->
+        <record id="estate_property_search_view" model="ir.ui.view">
+            <field name="name">estate.property.search</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <search>
+                    <!-- The fields included here are the ones you'll be able to search against -->
+                    <field name="name"/>
+                    <field name="state"/>
+                    <field name="buyer_id"/>
+                    <field name="postcode"/>
+                    <!-- the default filter provided by odoo can accept specific rules, but we can also add our own custom filter -->
+                    <filter name="new_state" string="New" domain="[('state', '=', 'new')]" />
+                    <filter name="sold_state" string="Sold" domain="[('state', '=', 'sold')]" />
+                    <!-- Horizontal line -->
+                    <separator/>
+                    <filter name="received_state" string="Received Offer" domain="[('state', '=', 'received')]" />
+                    <filter name="accepted_state" string="Accepted Offer" domain="[('state', '=', 'accepted')]" />
+
+                    <!-- Just like with filter, the default groupby provided by odoo can accept specific rules, but we can also add our own custom groupby -->
+                    <separator/>
+                    <group expand="0" string="Group By" >
+                        <filter name="group_by_state" string="State" context="{'group_by': 'state'}"/>
+                    </group>
+
+                    <!-- Seems to be just another way to represent the same thing as the group tag -->
+                    <!-- The search panel lists all the available values in a field -->
+                    <!-- So here we're listing all the available 'state' values -->
+                    <searchpanel>
+                        <field name="state" icon="fa-filter" groupby="group_by_state" limit="0"/>
+                    </searchpanel>
+
+                </search>
+
+            </field>
+        </record>
+
         <record id="estate_property_form_view" model="ir.ui.view">
             <field name="name">estate.property.form</field>
             <field name="model">estate.property</field>
@@ -50,7 +89,7 @@
                                 <field name="date_availability"/>
                             </group>
                             <group>
-                                <field name="expected_price" groups="real_estate_ads.group_property_manager" widget="monetary"/>
+                                <field name="expected_price" widget="monetary"/>
                                 <field name="best_offer" widget="monetary"/>
                                 <field name="selling_price" widget="monetary"/>
                             </group>
