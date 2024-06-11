@@ -1,0 +1,38 @@
+<odoo>
+    <!-- 1. create a new category -->
+    <!-- ir = information repository -->
+    <record id="module_category_real_estate" model="ir.module.category">
+        <field name="name">Real Estate</field>
+        <field name="description">Helps to handle properties and offers</field>
+
+        <!-- means it will be after records with sequence below 50 and before records with sequence above 50 -->
+        <field name="sequence">50</field>
+    </record>
+
+    <!-- 2. create a new group -->
+    <record id="group_property_user" model="res.groups">
+        <field name="name">User: Manage own property</field>
+        <!-- Use a ref (relational field) to link this group to the category defined above -->
+        <field name="category_id" ref="module_category_real_estate"/>
+        <!--
+        Odoo has 'operation codes' for doing specific things in the ORM
+        4: Link an existing record
+        So here we're saying that this group is linked to the 'base.group_user' group
+        In practice, that means that any user added to *this* group will also be added to the 'base.group_user' group
+        -->
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+
+        <!-- You can also manually add specific users to this group, rather than doing it through the UI -->
+        <field name="users" eval="[(4, ref('base.user_demo'))]"/>
+    </record>
+
+    <!-- Another group for managers -->
+    <record id="group_property_manager" model="res.groups">
+        <field name="name">Manager: Manage all properties</field>
+        <field name="category_id" ref="module_category_real_estate"/>
+        <!-- We can give the manager all the same permissions as the user group -->
+        <field name="implied_ids" eval="[(4, ref('group_property_user'))]"/>
+
+        <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+    </record>
+</odoo>
