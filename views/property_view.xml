@@ -130,6 +130,18 @@
             </field>
         </record>
 
+        <!-- Provides quick visualisations of data, e.g. here we can graph selling price in lots of different ways without much work -->
+        <record id="estate_property_graph_view" model="ir.ui.view">
+            <field name="name">estate.property.graph</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <graph>
+                    <field name="name" type="row"/>
+                    <field name="selling_price" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
 
         <record id="estate_property_form_view" model="ir.ui.view">
             <field name="name">estate.property.form</field>
@@ -209,7 +221,7 @@
             <field name="name">Property</field>
             <field name="res_model">estate.property</field>
             <!-- view_mode is a comma-separated list of the view types to make available. The first in the list is the one to open by default. -->
-            <field name="view_mode">kanban,pivot,tree,form</field>
+            <field name="view_mode">kanban,pivot,graph,tree,form</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Create a Property to Advertise
