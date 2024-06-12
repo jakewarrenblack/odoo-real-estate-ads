@@ -9,6 +9,10 @@
             <menuitem id="menu_property_type" name="Property Types" action="real_estate_ads.action_property_type" groups="real_estate_ads.group_property_manager"/>
             <menuitem id="menu_property_tag" name="Property Tag" action="real_estate_ads.action_property_tag" groups="real_estate_ads.group_property_manager"/>
             <menuitem id="menu_property_offers" name="Offers" action="real_estate_ads.action_property_offers"/>
+
+            <!-- Step one of creating a custom action. -->
+            <!-- Then, we create the action within the property view -->
+            <menuitem id="menu_test_client_action" name="Test Client Action" action="real_estate_ads.action_custom_client_action"/>
         </menuitem>
     </menuitem>
 </odoo>

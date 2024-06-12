@@ -172,6 +172,11 @@
                             <button class="oe_stat_button" name="action_property_view_offers" type="object" icon="fa-handshake-o">
                                 <field name="offer_count" string="Offers" widget="statinfo"/>
                             </button>
+
+                            <!-- A button to trigger a client action -->
+<!--                            <button class="oe_stat_button" name="action_client_action" type="object" icon="fa-handshake-o">-->
+<!--                                <field name="offer_count" string="Testing client" widget="statinfo"/>-->
+<!--                            </button>-->
                         </div>
                         <group>
                             <field name="name"/>
@@ -231,6 +236,11 @@
         </record>
 
 
+        <!-- Odoo actions: behaviour of the system in response to user actions -->
+        <!-- This window action is just one of six types of action in Odoo -->
+        <!-- Actions can be stored in the database or returned directly as dictionaries -->
+
+        <!-- Others include server (e.g. server calls some python code) actions, report (create something you can print) actions, scheduled (cron job) actions, URL (sends you somewhere else) action, client (js/xml) action -->
         <record id="action_property" model="ir.actions.act_window">
             <field name="name">Property</field>
             <field name="res_model">estate.property</field>
@@ -241,6 +251,17 @@
                     Create a Property to Advertise
                 </p>
             </field>
+        </record>
+
+
+        <!-- Second step of running a custom client action -->
+        <!-- We link this up with our menu via menu_items.xml -->
+
+        <!-- We then need to create a widget for the client action within the 'static' folder -->
+        <record id="action_custom_client_action" model="ir.actions.client">
+            <field name="name">Custom Client Action</field>
+            <!-- You don't need to tie a model in here -->
+            <field name="tag">custom_client_action</field>
         </record>
 
 

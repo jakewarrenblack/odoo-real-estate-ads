@@ -1,0 +1,11 @@
+<!-- The widget (javascript) performs a handshake with the xml template file -->
+<templates>
+    <!-- This is the same thing we used when we made a kanban view -->
+    <t t-name="CustomActions">
+        <div>
+            <h3>
+                Custom Actions
+            </h3>
+        </div>
+    </t>
+</templates>

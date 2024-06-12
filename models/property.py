@@ -115,6 +115,18 @@ class Property(models.Model):
     def _expand_state(self, states, domain, order):
         return [key for key, val in type(self).state.selection]
 
+    # def action_client_action(self):
+    #     return {
+    #         'type': 'ir.actions.client',
+    #         #'tag': 'reload'  # A widget for this tag already exists out of the box, it will refresh the page
+    #         # Others:
+    #         # 'apps' - open the app page
+    #         # 'display_notification' - display a notification.
+    #         # You'll use the 'params' tag alongside this, as well as a notification type, e.g.
+    #         # 'tag': 'display_notification',
+    #         # 'params': {'title': 'Title', 'message': 'Message', 'type': 'success', 'sticky': False},
+    #     }
+
 
 class PropertyType(models.Model):
     _name = 'estate.property.type'
