@@ -13,7 +13,7 @@
     <record id="group_property_user" model="res.groups">
         <field name="name">User: Manage own property</field>
         <!-- Use a ref (relational field) to link this group to the category defined above -->
-        <field name="category_id" ref="module_category_real_estate"/>
+        <field name="category_id" ref="real_estate_ads.module_category_real_estate"/>
         <!--
         Odoo has 'operation codes' for doing specific things in the ORM
         4: Link an existing record
@@ -29,9 +29,9 @@
     <!-- Another group for managers -->
     <record id="group_property_manager" model="res.groups">
         <field name="name">Manager: Manage all properties</field>
-        <field name="category_id" ref="module_category_real_estate"/>
+        <field name="category_id" ref="real_estate_ads.module_category_real_estate"/>
         <!-- We can give the manager all the same permissions as the user group -->
-        <field name="implied_ids" eval="[(4, ref('group_property_user'))]"/>
+        <field name="implied_ids" eval="[(4, ref('real_estate_ads.group_property_user'))]"/>
 
         <field name="users" eval="[(4, ref('base.user_admin'))]"/>
     </record>

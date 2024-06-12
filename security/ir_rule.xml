@@ -1,0 +1,36 @@
+<odoo>
+    <data>
+        <!--
+        Record rules are conditions that records must satisfy for a CRUD operation to be allowed.
+        E.g: User can only update Tasks that are assigned to them.
+
+        We'll use it to ensure only users who are assigned as the salesperson for a property can see it.
+        But a manager can see all properties.
+        -->
+
+        <!-- n.b. these IDs need to be unique -->
+        <record id="property_rule_for_users" model="ir.rule">
+            <field name="name">Property rule for user</field>
+            <field name="model_id" ref="real_estate_ads.model_estate_property"/>
+            <!-- Apply a filter ensuring only the relevant salesperson can see the property -->
+            <field name="domain_force">[('sales_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('real_estate_ads.group_property_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="property_rule_for_manager" model="ir.rule">
+            <field name="name">Property rule for manager</field>
+            <field name="model_id" ref="real_estate_ads.model_estate_property"/>
+            <!-- Just means no restriction applied -->
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('real_estate_ads.group_property_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+    </data>
+</odoo>
