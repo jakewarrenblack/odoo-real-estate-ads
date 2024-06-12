@@ -5,8 +5,9 @@
             <menuitem id="menu_property" name="Property" action="real_estate_ads.action_property"/>
         </menuitem>
         <menuitem id="menu_property_ads_settings" name="Settings">
-            <menuitem id="menu_property_type" name="Property Types" action="real_estate_ads.action_property_type"/>
-            <menuitem id="menu_property_tag" name="Property Tag" action="real_estate_ads.action_property_tag"/>
+            <!-- We can decide which groups can see this menu item -->
+            <menuitem id="menu_property_type" name="Property Types" action="real_estate_ads.action_property_type" groups="real_estate_ads.group_property_manager"/>
+            <menuitem id="menu_property_tag" name="Property Tag" action="real_estate_ads.action_property_tag" groups="real_estate_ads.group_property_manager"/>
             <menuitem id="menu_property_offers" name="Offers" action="real_estate_ads.action_property_offers"/>
         </menuitem>
     </menuitem>
