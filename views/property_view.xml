@@ -264,6 +264,37 @@
             <field name="tag">custom_client_action</field>
         </record>
 
+        <!-- A server action -->
+        <!-- Side note, we don't necessarily need to follow the `action_` naming convention -->
+        <record id="action_extend_offer_deadline" model="ir.actions.server">
+            <field name="name">Extend Deadline</field>
+            <!-- This needs to receive the external ID of the ir.model record we're targeting -->
+            <!-- ❌ estate.property.offer -->
+            <!-- ✅ real_estate_ads.model_estate_property_offer -->
+            <!-- The format is <module_name>.model_<model_name> -->
+            <field name="model_id" ref="real_estate_ads.model_estate_property_offer"/>
+
+            <!-- all actions also share optional attributes used to present an action in an arbitrary model’s contextual menu -->
+            <!-- Without these, we would see the model if we went to 'server actions' in the technical settings -->
+            <!-- But we wouldn't see it in the context menu of the model -->
+            <field name="binding_model_id" ref="real_estate_ads.model_estate_property_offer"/>
+            <!-- list,form are the defaults anyway. this is a list of the view types in which the action can appear. -->
+            <field name="binding_view_types">list,form</field>
+
+            <field name="state">code</field>
+            <!--
+            Could also be:
+                - object_create
+                - object_write
+                - multi
+            -->
+            <!-- Specify the python code to run when the action is called -->
+            <!-- The model object is linked to the action via model_id, we can access it within this 'evaluation context' -->
+            <field name="code">
+                action = model.extend_offer_deadline
+            </field>
+        </record>
+
 
     </data>
 </odoo>

@@ -243,3 +243,6 @@ class PropertyOffer(models.Model):
                 'state': 'received'
             })
 
+    def extend_offer_deadline(self):
+        pass
+
