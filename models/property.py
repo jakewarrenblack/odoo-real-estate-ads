@@ -134,6 +134,11 @@ class Property(models.Model):
             'target': 'new' # or can be 'self' to open in the same tab
         }
 
+    def _get_report_base_filename(self):
+        # ensure_one() makes sure we only have one record at the point of query
+        self.ensure_one()
+        return f'Estate Property - {self.name}'
+
 
 class PropertyType(models.Model):
     _name = 'estate.property.type'

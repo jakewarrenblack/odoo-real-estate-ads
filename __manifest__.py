@@ -22,6 +22,10 @@
 
         # Data Files
         'data/estate.property.tag.csv',
+
+        # Report
+        'reports/report_template.xml',
+        'reports/property_report.xml',
     ],
     "depends": [
         'base'
