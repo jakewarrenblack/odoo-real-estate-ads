@@ -291,7 +291,7 @@
             <!-- Specify the python code to run when the action is called -->
             <!-- The model object is linked to the action via model_id, we can access it within this 'evaluation context' -->
             <field name="code">
-                action = model.extend_offer_deadline
+                action = model.extend_offer_deadline()
             </field>
         </record>
 

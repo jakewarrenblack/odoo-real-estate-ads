@@ -244,5 +244,22 @@ class PropertyOffer(models.Model):
             })
 
     def extend_offer_deadline(self):
-        pass
+        # The Environment object, usually accessible as self.env, holds references to all the
+        # models available, and these can be accessed using dictionary-like syntax
+
+        # 'context' is a dictionary that holds information about the current environment
+        # E.g 'active_ids' holds the IDs of the records currently selected in the view
+
+        # This will just be a list of integers
+        active_ids = self.env.context.get('active_ids')
+
+        if active_ids:
+            # This will be a list of record objects.
+            # Browse is useful where we already know the IDs we want to retrieve records for.
+            offers = self.env['estate.property.offer'].browse(active_ids)
+
+            for offer in offers:
+                # Or you could do this using the write() ORM method
+                offer.validity = 10
+
 
