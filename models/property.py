@@ -127,6 +127,13 @@ class Property(models.Model):
     #         # 'params': {'title': 'Title', 'message': 'Message', 'type': 'success', 'sticky': False},
     #     }
 
+    def action_url_action(self):
+        return {
+            'type': 'ir.actions.act_url',
+            'url': 'https://www.odoo.com',
+            'target': 'new' # or can be 'self' to open in the same tab
+        }
+
 
 class PropertyType(models.Model):
     _name = 'estate.property.type'
