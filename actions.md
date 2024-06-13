@@ -115,6 +115,8 @@ We also pull in our custom template `report_estate_property_document`, which we'
 
 `docs` is a special variable in qweb. It's a list of records that are passed to the template.
 
+So it's an iterable of all the records available to the template.
+
 The `t-as` attribute is used to assign a name to each record in the list. Just like a normal loop.
 
 4. Import all this stuff into the manifest.
