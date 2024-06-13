@@ -295,6 +295,18 @@
             </field>
         </record>
 
+        <!-- A cron job -->
+        <record id="ir_cron_extend_ofer_deadline" model="ir.cron">
+            <field name="name">Offers: Extend Offer Deadline</field>
+            <field name="model_id" ref="real_estate_ads.model_estate_property_offer"/>
+            <field name="state">code</field>
+            <field name="code">model._extend_offer_deadline()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <!-- -1 says it will run indefinitely -->
+            <field name="numbercall">-1</field>
+        </record>
+
 
     </data>
 </odoo>

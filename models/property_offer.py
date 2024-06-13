@@ -262,4 +262,16 @@ class PropertyOffer(models.Model):
                 # Or you could do this using the write() ORM method
                 offer.validity = 10
 
+    # Private method
+    def _extend_offer_deadline(self):
+        # In the standard extend_offer_deadline method, we were able to use browse() to get the records we wanted,
+        # because the user will have selected some offers, making them available in the context
+        # But in this method, we're not doing that. We're just extending the deadline for all offers.
+        # So, we instead use search() to get all the offers.
+        offers = self.env['estate.property.offer'].search([
+            # so this is a search without any filters, it will return all records
+        ])
+
+        for offer in offers:
+            offer.validity = offer.validity + 1
 
