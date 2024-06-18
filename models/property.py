@@ -5,6 +5,15 @@ class Property(models.Model):
     _name = 'estate.property'
     _description = 'Estate Properties'
 
+    # Mixins are abstract models providing useful features through inheritance
+    # They don't have a representation in the database,
+    # They just provide useful features you can mix with your existing models
+    # In this case, we're using the 'mail.thread' mixin to add messaging features to our model
+    _inherit = ['mail.thread']
+    # You can then add some fields to your view
+    # Remember to also add 'mail' to the 'depends' list in the __manifest__.py file
+    # Otherwise you'll get an error saying your model inherits from a non-existent model
+
     name = fields.Char(string="Name", required=True)
     state = fields.Selection([
         ('new', 'New'),
@@ -23,7 +32,10 @@ class Property(models.Model):
     description = fields.Text(string="Description")  # multiline values
     postcode = fields.Char(string="Postcode")
     date_availability = fields.Date(string="Available From")
-    expected_price = fields.Float(string="Expected Price")
+    # The tracking=True attribute will make sure that the field is tracked
+    # This means that in the chatter widget, you can see the history of changes to this field
+    # So anyone following the chatter will be notified when it changes
+    expected_price = fields.Float(string="Expected Price", tracking=True)
     selling_price = fields.Float(string="Selling Price", readonly=True)
     best_offer = fields.Float(string="Best Offer", compute='compute_best_price')
     bedrooms = fields.Integer(string="Bedrooms")

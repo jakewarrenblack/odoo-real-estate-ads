@@ -28,7 +28,8 @@
         'reports/property_report.xml',
     ],
     "depends": [
-        'base'
+        'base',
+        'mail'
     ],
     "assets": {
       "web.assets_backend": [
